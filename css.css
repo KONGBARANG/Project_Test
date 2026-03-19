@@ -1,0 +1,23 @@
+body {
+    background-color: #2c3e50; /* ពណ៌ផ្ទៃខាងក្រោយរាងងងឹត */
+    color: white;
+    font-family: 'Khmer OS Battambang', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+img {
+    width: 250px;
+    border: 5px solid white;
+    border-radius: 15px; /* ធ្វើឱ្យជ្រុងរូបភាពរាងមូល */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5); /* បន្ថែមស្រមោល */
+    transition: transform 0.3s; /* សម្រាប់ធ្វើ motion */
+}
+
+img:hover {
+    transform: scale(1.1); /* រូបភាពនឹងរីកធំផ្អាកៗពេលយើងដាក់ Mouse ពីលើ */
+}
