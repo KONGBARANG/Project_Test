@@ -21,3 +21,15 @@ img {
 img:hover {
     transform: scale(1.1); /* រូបភាពនឹងរីកធំផ្អាកៗពេលយើងដាក់ Mouse ពីលើ */
 }
+
+video {
+    width: 250px;
+    border: 5px solid white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: transform 0.3s;
+}
+
+video:hover {
+    transform: scale(1.1);
+}
