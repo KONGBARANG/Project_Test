@@ -1,27 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rang X Neang</title>
+    <meta name="description" content="A beautiful page dedicated to my girlfriend - Rang X Neang">
+    <title>Rang X Neang - My Love</title>
     <link rel="stylesheet" href="css.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💕</text></svg>">
 </head>
 <body>
+    <header>
+        <h1>💕 Rang X Neang 💕</h1>
+        <p class="subtitle">My Beautiful Girlfriend</p>
+    </header>
 
-    <h1>This my girlfriend</h1>
-    <div class="img">
-        <img src="./photo/photo1.jpg" alt="">
-    </div>
+    <main>
+        <section class="memory">
+            <h2>🌸 This is My Girlfriend 🌸</h2>
+            <div class="img-container">
+                <img src="./photo/photo1.jpg" alt="Beautiful photo of my girlfriend" loading="lazy">
+                <p class="caption">Forever in my heart 💖</p>
+            </div>
+        </section>
 
-    <h2>O Neang</h2>
-    <div class="img_2">
-        <img src="./photo/photo2.jpg" alt="">
-    </div>
+        <section class="memory">
+            <h2>🌹 O Neang 🌹</h2>
+            <div class="img-container">
+                <img src="./photo/photo2.jpg" alt="Sweet moment with my girlfriend" loading="lazy">
+                <p class="caption">My everything 🌟</p>
+            </div>
+        </section>
 
-    <h3>Me with my girlfriend</h3>
-    <video src="./video/video1.mp4" controls width="250"></video>
+        <section class="memory">
+            <h3>🎥 Me with My Girlfriend 🎥</h3>
+            <div class="video-container">
+                <video src="./video/video1.mp4" controls preload="metadata" poster="./photo/photo1.jpg">
+                    Your browser does not support the video tag.
+                </video>
+                <p class="caption">Our precious memories together 💑</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Made with ❤️ for my dearest</p>
+    </footer>
 
     <script src="back.js"></script>
-    
 </body>
 </html>
