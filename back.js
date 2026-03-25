@@ -1,86 +1,160 @@
-// Romantic interactions for the beautiful page 💕
+/**
+ * Romantic Interactions for Rang X Neang 💕
+ * Beautiful JavaScript enhancements for the love page
+ */
 
-// Add click handlers to all images
-document.querySelectorAll('img').forEach((img, index) => {
-    img.addEventListener('click', () => {
-        showLoveMessage(index);
-        createHeartEffect(img);
-    });
-});
+// Configuration constants
+const CONFIG = {
+    HEART_COUNT: 8,
+    HEART_DELAY: 100,
+    HEART_SIZE: 24,
+    MODAL_AUTO_CLOSE: 3000,
+    HEART_FLOAT_DURATION: 2000,
+    AMBIENT_HEART_CHANCE: 0.1,
+    AMBIENT_HEART_INTERVAL: 5000,
+    NOTIFICATION_DURATION: 2000
+};
 
-// Add click handler to video
-const video = document.querySelector('video');
-if (video) {
-    video.addEventListener('play', () => {
-        showNotification('🎥 Playing our precious memories...');
+// Love messages data
+const LOVE_MESSAGES = [
+    {
+        english: 'Love you o neang ❤',
+        khmer: 'បងស្រលាញ់អូននាងខ្លាំងៗ 🥰',
+        emoji: '💕'
+    },
+    {
+        english: 'You make my heart skip a beat! 💓',
+        khmer: 'អូននាងធ្វើឱ្យបេះដូងបងលោតខ្លាំងណាស់! 💓',
+        emoji: '🌹'
+    }
+];
+
+/**
+ * Initialize all romantic interactions
+ */
+function initializeRomanticFeatures() {
+    setupImageInteractions();
+    setupVideoInteractions();
+    startAmbientEffects();
+}
+
+/**
+ * Setup click interactions for all images
+ */
+function setupImageInteractions() {
+    document.querySelectorAll('img').forEach((img, index) => {
+        img.addEventListener('click', (event) => {
+            event.preventDefault();
+            handleImageClick(img, index);
+        });
     });
 }
 
-// Love messages for each image
+/**
+ * Setup video play interactions
+ */
+function setupVideoInteractions() {
+    const video = document.querySelector('video');
+    if (video) {
+        video.addEventListener('play', () => {
+            showNotification('🎥 Playing our precious memories...');
+        });
+    }
+}
+
+/**
+ * Handle image click - show message and create heart effect
+ */
+function handleImageClick(imageElement, index) {
+    showLoveMessage(index);
+    createHeartEffect(imageElement);
+}
+
+/**
+ * Display love message in a beautiful modal
+ */
 function showLoveMessage(index) {
-    const messages = [
-        {
-            english: 'Love you o neang ❤',
-            khmer: 'បងស្រលាញ់អូននាងខ្លាំងៗ 🥰',
-            emoji: '💕'
-        },
-        {
-            english: 'You make my heart skip a beat! 💓',
-            khmer: 'អូននាងធ្វើឱ្យបេះដូងបងលោតខ្លាំងណាស់! 💓',
-            emoji: '🌹'
-        }
-    ];
-
-    const message = messages[index] || messages[0];
-
-    // Create a beautiful modal instead of alert
+    const message = LOVE_MESSAGES[index] || LOVE_MESSAGES[0];
     createLoveModal(message);
 }
 
-// Create heart effect on click
+/**
+ * Create floating heart effect at element position
+ */
 function createHeartEffect(element) {
     const rect = element.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
-    for (let i = 0; i < 8; i++) {
+    // Create multiple hearts with staggered timing
+    for (let i = 0; i < CONFIG.HEART_COUNT; i++) {
         setTimeout(() => {
             createFloatingHeart(centerX, centerY);
-        }, i * 100);
+        }, i * CONFIG.HEART_DELAY);
     }
 }
 
-// Create floating heart animation
+/**
+ * Create and animate a single floating heart
+ */
 function createFloatingHeart(x, y) {
     const heart = document.createElement('div');
     heart.innerHTML = '💖';
-    heart.style.position = 'fixed';
-    heart.style.left = x + 'px';
-    heart.style.top = y + 'px';
-    heart.style.fontSize = '24px';
-    heart.style.pointerEvents = 'none';
-    heart.style.zIndex = '1000';
-    heart.style.animation = 'floatHeart 2s ease-out forwards';
+    heart.className = 'floating-heart';
+
+    // Set initial position and styles
+    Object.assign(heart.style, {
+        position: 'fixed',
+        left: `${x}px`,
+        top: `${y}px`,
+        fontSize: `${CONFIG.HEART_SIZE}px`,
+        pointerEvents: 'none',
+        zIndex: '1000',
+        animation: 'floatHeart 2s ease-out forwards'
+    });
 
     document.body.appendChild(heart);
 
+    // Remove heart after animation
     setTimeout(() => {
         heart.remove();
-    }, 2000);
+    }, CONFIG.HEART_FLOAT_DURATION);
 }
 
-// Create beautiful love modal
+/**
+ * Create and display a beautiful love modal
+ */
 function createLoveModal(message) {
-    // Remove existing modal if any
-    const existingModal = document.querySelector('.love-modal');
-    if (existingModal) existingModal.remove();
+    removeExistingModal();
 
+    const modal = createModalElement(message);
+    document.body.appendChild(modal);
+
+    setupModalInteractions(modal);
+    scheduleAutoClose(modal);
+}
+
+/**
+ * Remove any existing modal
+ */
+function removeExistingModal() {
+    const existingModal = document.querySelector('.love-modal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+}
+
+/**
+ * Create the modal DOM element
+ */
+function createModalElement(message) {
     const modal = document.createElement('div');
     modal.className = 'love-modal';
+
     modal.innerHTML = `
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close-btn">&times;</span>
+                <span class="close-btn" aria-label="Close modal">&times;</span>
             </div>
             <div class="modal-body">
                 <div class="heart-icon">${message.emoji}</div>
@@ -90,60 +164,98 @@ function createLoveModal(message) {
         </div>
     `;
 
-    document.body.appendChild(modal);
+    return modal;
+}
 
-    // Add close functionality
-    modal.querySelector('.close-btn').addEventListener('click', () => {
-        modal.remove();
+/**
+ * Setup modal interaction handlers
+ */
+function setupModalInteractions(modal) {
+    const closeBtn = modal.querySelector('.close-btn');
+    closeBtn.addEventListener('click', () => modal.remove());
+
+    // Close on background click
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.remove();
+        }
     });
+}
 
-    // Auto close after 3 seconds
+/**
+ * Schedule automatic modal closure
+ */
+function scheduleAutoClose(modal) {
     setTimeout(() => {
         if (modal.parentNode) {
             modal.remove();
         }
-    }, 3000);
+    }, CONFIG.MODAL_AUTO_CLOSE);
 }
 
-// Show notification for video play
+/**
+ * Show a temporary notification
+ */
 function showNotification(text) {
+    const notification = createNotificationElement(text);
+    document.body.appendChild(notification);
+
+    scheduleNotificationRemoval(notification);
+}
+
+/**
+ * Create notification DOM element
+ */
+function createNotificationElement(text) {
     const notification = document.createElement('div');
     notification.className = 'notification';
     notification.textContent = text;
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: rgba(255, 107, 157, 0.9);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 25px;
-        font-weight: bold;
-        z-index: 1000;
-        animation: slideInRight 0.5s ease-out;
-    `;
 
-    document.body.appendChild(notification);
+    Object.assign(notification.style, {
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        background: 'rgba(255, 107, 157, 0.9)',
+        color: 'white',
+        padding: '10px 20px',
+        borderRadius: '25px',
+        fontWeight: 'bold',
+        zIndex: '1000',
+        animation: 'slideInRight 0.5s ease-out'
+    });
 
+    return notification;
+}
+
+/**
+ * Schedule notification removal with animation
+ */
+function scheduleNotificationRemoval(notification) {
     setTimeout(() => {
         notification.style.animation = 'slideOutRight 0.5s ease-out forwards';
         setTimeout(() => notification.remove(), 500);
-    }, 2000);
+    }, CONFIG.NOTIFICATION_DURATION);
 }
 
-// Add some ambient effects
-function addAmbientEffects() {
-    // Add subtle floating hearts occasionally
+/**
+ * Start ambient background effects
+ */
+function startAmbientEffects() {
     setInterval(() => {
-        if (Math.random() < 0.1) { // 10% chance every 5 seconds
-            const x = Math.random() * window.innerWidth;
-            const y = window.innerHeight;
-            createFloatingHeart(x, y);
+        if (Math.random() < CONFIG.AMBIENT_HEART_CHANCE) {
+            createAmbientHeart();
         }
-    }, 5000);
+    }, CONFIG.AMBIENT_HEART_INTERVAL);
 }
 
-// Initialize when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    addAmbientEffects();
-});
+/**
+ * Create a random ambient floating heart
+ */
+function createAmbientHeart() {
+    const x = Math.random() * window.innerWidth;
+    const y = window.innerHeight;
+    createFloatingHeart(x, y);
+}
+
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', initializeRomanticFeatures);
