@@ -13,7 +13,8 @@ const CONFIG = {
     AMBIENT_HEART_CHANCE: 0.3,
     AMBIENT_HEART_INTERVAL: 3000,
     NOTIFICATION_DURATION: 2000,
-    BACKGROUND_HEART_COUNT: 20
+    BACKGROUND_HEART_COUNT: 20,
+    HEART_EMOJIS: ['💖', '💕', '💓', '💗', '💘', '💝', '💞']
 };
 
 // Love messages data
@@ -31,7 +32,29 @@ const LOVE_MESSAGES = [
 ];
 
 /**
- * Initialize all romantic interactions
+ * Utility function to get a random heart emoji
+ * @returns {string} Random heart emoji
+ */
+function getRandomHeartEmoji() {
+    return CONFIG.HEART_EMOJIS[Math.floor(Math.random() * CONFIG.HEART_EMOJIS.length)];
+}
+
+/**
+ * Utility function to create and style a DOM element
+ * @param {string} tag - HTML tag name
+ * @param {string} className - CSS class name
+ * @param {Object} styles - Style properties object
+ * @returns {HTMLElement} The created element
+ */
+function createStyledElement(tag, className, styles = {}) {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    Object.assign(element.style, styles);
+    return element;
+}
+
+/**
+ * Initialize all romantic interactions when DOM is ready
  */
 function initializeRomanticFeatures() {
     setupImageInteractions();
@@ -65,6 +88,8 @@ function setupVideoInteractions() {
 
 /**
  * Handle image click - show message and create heart effect
+ * @param {HTMLImageElement} imageElement - The clicked image
+ * @param {number} index - Index of the image
  */
 function handleImageClick(imageElement, index) {
     showLoveMessage(index);
@@ -73,6 +98,7 @@ function handleImageClick(imageElement, index) {
 
 /**
  * Display love message in a beautiful modal
+ * @param {number} index - Index of the message to show
  */
 function showLoveMessage(index) {
     const message = LOVE_MESSAGES[index] || LOVE_MESSAGES[0];
@@ -81,6 +107,7 @@ function showLoveMessage(index) {
 
 /**
  * Create floating heart effect at element position
+ * @param {HTMLElement} element - Element to create effect around
  */
 function createHeartEffect(element) {
     const rect = element.getBoundingClientRect();
@@ -97,14 +124,11 @@ function createHeartEffect(element) {
 
 /**
  * Create and animate a single floating heart
+ * @param {number} x - X position
+ * @param {number} y - Y position
  */
 function createFloatingHeart(x, y) {
-    const heart = document.createElement('div');
-    heart.innerHTML = '💖';
-    heart.className = 'floating-heart';
-
-    // Set initial position and styles
-    Object.assign(heart.style, {
+    const heart = createStyledElement('div', 'floating-heart', {
         position: 'fixed',
         left: `${x}px`,
         top: `${y}px`,
@@ -114,6 +138,7 @@ function createFloatingHeart(x, y) {
         animation: 'floatHeart 2s ease-out forwards'
     });
 
+    heart.innerHTML = '💖';
     document.body.appendChild(heart);
 
     // Remove heart after animation
@@ -124,6 +149,7 @@ function createFloatingHeart(x, y) {
 
 /**
  * Create and display a beautiful love modal
+ * @param {Object} message - Message object with english, khmer, and emoji
  */
 function createLoveModal(message) {
     removeExistingModal();
@@ -147,10 +173,11 @@ function removeExistingModal() {
 
 /**
  * Create the modal DOM element
+ * @param {Object} message - Message object
+ * @returns {HTMLElement} Modal element
  */
 function createModalElement(message) {
-    const modal = document.createElement('div');
-    modal.className = 'love-modal';
+    const modal = createStyledElement('div', 'love-modal');
 
     modal.innerHTML = `
         <div class="modal-content">
@@ -170,6 +197,7 @@ function createModalElement(message) {
 
 /**
  * Setup modal interaction handlers
+ * @param {HTMLElement} modal - Modal element
  */
 function setupModalInteractions(modal) {
     const closeBtn = modal.querySelector('.close-btn');
@@ -185,10 +213,11 @@ function setupModalInteractions(modal) {
 
 /**
  * Schedule automatic modal closure
+ * @param {HTMLElement} modal - Modal element
  */
 function scheduleAutoClose(modal) {
     setTimeout(() => {
-        if (modal.parentNode) {
+        if (modal && modal.parentNode) {
             modal.remove();
         }
     }, CONFIG.MODAL_AUTO_CLOSE);
@@ -196,23 +225,21 @@ function scheduleAutoClose(modal) {
 
 /**
  * Show a temporary notification
+ * @param {string} text - Notification text
  */
 function showNotification(text) {
     const notification = createNotificationElement(text);
     document.body.appendChild(notification);
-
     scheduleNotificationRemoval(notification);
 }
 
 /**
  * Create notification DOM element
+ * @param {string} text - Notification text
+ * @returns {HTMLElement} Notification element
  */
 function createNotificationElement(text) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.textContent = text;
-
-    Object.assign(notification.style, {
+    const notification = createStyledElement('div', 'notification', {
         position: 'fixed',
         top: '20px',
         right: '20px',
@@ -224,17 +251,22 @@ function createNotificationElement(text) {
         zIndex: '1000',
         animation: 'slideInRight 0.5s ease-out'
     });
-
+    notification.textContent = text;
     return notification;
 }
 
 /**
  * Schedule notification removal with animation
+ * @param {HTMLElement} notification - Notification element
  */
 function scheduleNotificationRemoval(notification) {
     setTimeout(() => {
         notification.style.animation = 'slideOutRight 0.5s ease-out forwards';
-        setTimeout(() => notification.remove(), 500);
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 500);
     }, CONFIG.NOTIFICATION_DURATION);
 }
 
@@ -242,20 +274,18 @@ function scheduleNotificationRemoval(notification) {
  * Create animated background hearts
  */
 function createBackgroundHearts() {
-    const container = document.createElement('div');
-    container.className = 'background-hearts';
+    const container = createStyledElement('div', 'background-hearts');
     document.body.appendChild(container);
 
-    const heartEmojis = ['💖', '💕', '💓', '💗', '💘', '💝', '💞'];
-
     for (let i = 0; i < CONFIG.BACKGROUND_HEART_COUNT; i++) {
-        const heart = document.createElement('div');
-        heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-        heart.className = 'background-heart';
-        heart.style.left = Math.random() * 100 + '%';
-        heart.style.animationDelay = Math.random() * 10 + 's';
-        heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
-        heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+        const heart = createStyledElement('div', 'background-heart', {
+            left: Math.random() * 100 + '%',
+            animationDelay: Math.random() * 10 + 's',
+            animationDuration: (Math.random() * 10 + 10) + 's',
+            fontSize: (Math.random() * 20 + 20) + 'px'
+        });
+
+        heart.innerHTML = getRandomHeartEmoji();
         container.appendChild(heart);
     }
 }
