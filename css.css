@@ -211,6 +211,11 @@ main {
     box-shadow: 0 8px 32px rgba(0,0,0,0.1);
     border: 1px solid rgba(255,255,255,0.2);
     animation: slideInUp 1s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
 }
 
 .memory:nth-child(1) { animation-delay: 0.2s; }
