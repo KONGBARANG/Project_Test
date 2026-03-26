@@ -72,11 +72,16 @@ header h1 {
 }
 
 main {
-    width: 100%;
+    width: min(100%, 1200px);
     max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 40px;
+}
+
+.timeline {
+    margin: 0 auto;
 }
 
 /* Navigation */
