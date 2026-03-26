@@ -10,9 +10,10 @@ const CONFIG = {
     HEART_SIZE: 24,
     MODAL_AUTO_CLOSE: 3000,
     HEART_FLOAT_DURATION: 2000,
-    AMBIENT_HEART_CHANCE: 0.1,
-    AMBIENT_HEART_INTERVAL: 5000,
-    NOTIFICATION_DURATION: 2000
+    AMBIENT_HEART_CHANCE: 0.3,
+    AMBIENT_HEART_INTERVAL: 3000,
+    NOTIFICATION_DURATION: 2000,
+    BACKGROUND_HEART_COUNT: 20
 };
 
 // Love messages data
@@ -35,6 +36,7 @@ const LOVE_MESSAGES = [
 function initializeRomanticFeatures() {
     setupImageInteractions();
     setupVideoInteractions();
+    createBackgroundHearts();
     startAmbientEffects();
 }
 
@@ -234,6 +236,28 @@ function scheduleNotificationRemoval(notification) {
         notification.style.animation = 'slideOutRight 0.5s ease-out forwards';
         setTimeout(() => notification.remove(), 500);
     }, CONFIG.NOTIFICATION_DURATION);
+}
+
+/**
+ * Create animated background hearts
+ */
+function createBackgroundHearts() {
+    const container = document.createElement('div');
+    container.className = 'background-hearts';
+    document.body.appendChild(container);
+
+    const heartEmojis = ['💖', '💕', '💓', '💗', '💘', '💝', '💞'];
+
+    for (let i = 0; i < CONFIG.BACKGROUND_HEART_COUNT; i++) {
+        const heart = document.createElement('div');
+        heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+        heart.className = 'background-heart';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDelay = Math.random() * 10 + 's';
+        heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+        container.appendChild(heart);
+    }
 }
 
 /**
