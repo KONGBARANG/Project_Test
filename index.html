@@ -12,42 +12,127 @@
     <header>
         <h1>💕 Rang X Neang 💕</h1>
         <p class="subtitle">My Beautiful Girlfriend</p>
+
+        <div class="theme-controls">
+            <button class="theme-btn" data-theme="default">Default</button>
+            <button class="theme-btn" data-theme="pastel">Pastel</button>
+            <button class="theme-btn" data-theme="dark">Dark</button>
+        </div>
+
+        <div class="anniversary-counter" id="anniversaryCounter">
+            <p>💍 Together since May 25, 2025 💍</p>
+            <p id="daysTogether">Calculating days of love...</p>
+        </div>
     </header>
 
     <main>
-        <section class="memory">
-            <h2>🌸 This is My Girlfriend 🌸</h2>
-            <div class="img-container">
-                <img src="./photo/photo1.jpg" alt="Beautiful photo of my girlfriend" loading="lazy">
-                <p class="caption">Forever in my heart 💖</p>
+        <nav class="navigation">
+            <a href="#photos" class="nav-link">📸 Photos</a>
+            <a href="#videos" class="nav-link">🎥 Videos</a>
+            <a href="#messages" class="nav-link">💌 Messages</a>
+            <a href="#timeline" class="nav-link">📅 Timeline</a>
+        </nav>
+
+        <section id="photos" class="gallery-section">
+            <h2>🌸 Our Beautiful Memories 🌸</h2>
+            <div class="gallery-grid">
+                <div class="memory">
+                    <div class="img-container">
+                        <img src="./photo/photo1.jpg" alt="Beautiful photo of my girlfriend" loading="lazy">
+                        <p class="caption">Forever in my heart 💖</p>
+                    </div>
+                </div>
+
+                <div class="memory">
+                    <div class="img-container">
+                        <img src="./photo/photo2.jpg" alt="Sweet moment with my girlfriend" loading="lazy">
+                        <p class="caption">My everything 🌟</p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section class="memory">
-            <h2>🌹 O Neang 🌹</h2>
-            <div class="img-container">
-                <img src="./photo/photo2.jpg" alt="Sweet moment with my girlfriend" loading="lazy">
-                <p class="caption">My everything 🌟</p>
+        <section id="videos" class="gallery-section">
+            <h2>🎥 Our Precious Moments 🎥</h2>
+            <div class="video-grid">
+                <div class="memory">
+                    <h3>Me with My Girlfriend</h3>
+                    <div class="video-container">
+                        <video src="./video/video1.mp4" controls preload="metadata" poster="./photo/photo1.jpg">
+                            Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">Our precious memories together 💑</p>
+                    </div>
+                </div>
+
+                <div class="memory">
+                    <h3>Song for Rang X Neang</h3>
+                    <div class="video-container">
+                        <video src="./video/video2.mp4" controls preload="metadata" poster="./photo/photo2.jpg">
+                            Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">More beautiful moments 💑</p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section class="memory">
-            <h3>🎥 Me with My Girlfriend 🎥</h3>
-            <div class="video-container">
-                <video src="./video/video1.mp4" controls preload="metadata" poster="./photo/photo1.jpg">
-                    Your browser does not support the video tag.
-                </video>
-                <p class="caption">Our precious memories together 💑</p>
+        <section id="messages" class="messages-section">
+            <h2>💌 Love Messages 💌</h2>
+            <div class="messages-container">
+                <div class="love-message">
+                    <div class="message-content">
+                        <h3>💕 My Dearest Rang X Neang 💕</h3>
+                        <p>Every moment with you is a treasure. Your smile lights up my world, and your love fills my heart with joy. You are my everything, my love, my life. Forever yours! 💖</p>
+                        <p class="message-date">March 26, 2026</p>
+                    </div>
+                </div>
+
+                <div class="love-message">
+                    <div class="message-content">
+                        <h3>🌹 My Beautiful O Neang 🌹</h3>
+                        <p>You make my heart skip a beat every time I see you. Your laughter is my favorite melody, and your touch is my greatest comfort. I love you more than words can express! 💓</p>
+                        <p class="message-date">Every day</p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section class="memory">
-            <h3>Song for Rang X Neang</h3>
-            <div class="video-container">
-                <video src="./video/video2.mp4" controls preload="metadata" poster="./photo/photo2.jpg">
-                    Your browser does not support the video tag.
-                </video>
-                <p class="caption">More beautiful moments 💑</p>
+        <section id="timeline" class="timeline-section">
+            <h2>📅 Our Love Story 📅</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>🌟 The Day We Met 🌟</h3>
+                        <p>The moment our eyes met, I knew you were special. That smile that captured my heart forever! 💕</p>
+                        <span class="timeline-date">First Meeting</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item anniversary">
+                    <div class="timeline-content special">
+                        <h3>💍 Our Love Began 💍</h3>
+                        <p>The magical day when our hearts connected forever. 25/05/2025 - the day we fell in love! 💖✨</p>
+                        <span class="timeline-date">25 May 2025</span>
+                        <div class="anniversary-badge">🎉 ANNIVERSARY 🎉</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>💑 Our First Date 💑</h3>
+                        <p>A magical evening filled with laughter, conversation, and the beginning of something beautiful! 🌹</p>
+                        <span class="timeline-date">First Date</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>💍 Forever Together 💍</h3>
+                        <p>Every day with you is a blessing. You are my love, my life, my everything! 💖</p>
+                        <span class="timeline-date">Today & Always</span>
+                    </div>
+                </div>
             </div>
         </section>
     </main>

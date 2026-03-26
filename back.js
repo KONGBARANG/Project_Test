@@ -28,6 +28,16 @@ const LOVE_MESSAGES = [
         english: 'You make my heart skip a beat! 💓',
         khmer: 'អូននាងធ្វើឱ្យបេះដូងបងលោតខ្លាំងណាស់! 💓',
         emoji: '🌹'
+    },
+    {
+        english: 'My Dearest Rang X Neang',
+        khmer: 'រាង ហ្សឹង នាង',
+        emoji: '💕'
+    },
+    {
+        english: 'My Beautiful O Neang',
+        khmer: 'អូននាងស្រស់ស្អាតរបស់បង',
+        emoji: '🌹'
     }
 ];
 
@@ -59,6 +69,10 @@ function createStyledElement(tag, className, styles = {}) {
 function initializeRomanticFeatures() {
     setupImageInteractions();
     setupVideoInteractions();
+    setupNavigation();
+    setupMessageInteractions();
+    setupAnniversaryCounter();
+    setupThemeSwitcher();
     createBackgroundHearts();
     startAmbientEffects();
 }
@@ -84,6 +98,70 @@ function setupVideoInteractions() {
             showNotification('🎥 Playing our precious memories...');
         });
     });
+}
+
+/**
+ * Setup navigation interactions
+ */
+function setupNavigation() {
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+                showNotification('✨ Scrolling to ' + link.textContent + ' ✨');
+            }
+        });
+    });
+}
+
+/**
+ * Setup message interactions
+ */
+function setupMessageInteractions() {
+    document.querySelectorAll('.love-message').forEach((message, index) => {
+        message.addEventListener('click', () => {
+            const messageData = LOVE_MESSAGES[index] || LOVE_MESSAGES[0];
+            createLoveModal({
+                ...messageData,
+                english: message.querySelector('h3').textContent,
+                khmer: message.querySelector('p').textContent
+            });
+        });
+    });
+
+    // Special anniversary interaction
+    const anniversaryItem = document.querySelector('.timeline-item.anniversary');
+    if (anniversaryItem) {
+        anniversaryItem.addEventListener('click', () => {
+            createLoveModal({
+                english: 'Our Special Day - May 25, 2025',
+                khmer: 'ថ្ងៃពិសេសរបស់យើង - ២៥ ឧសភា ២០២៥',
+                emoji: '💍'
+            });
+        });
+    }
+}
+
+/**
+ * Setup anniversary counter
+ */
+function setupAnniversaryCounter() {
+    const anniversaryDate = new Date('2025-05-25');
+    const today = new Date();
+    const timeDiff = today.getTime() - anniversaryDate.getTime();
+    const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+
+    const counterElement = document.getElementById('daysTogether');
+    if (counterElement) {
+        if (daysDiff >= 0) {
+            counterElement.textContent = `${daysDiff} days of love and counting! 💕`;
+        } else {
+            counterElement.textContent = `Our special day is coming soon! 🎉`;
+        }
+    }
 }
 
 /**
@@ -308,6 +386,31 @@ function createAmbientHeart() {
     const x = Math.random() * window.innerWidth;
     const y = window.innerHeight;
     createFloatingHeart(x, y);
+}
+
+/**
+ * Setup background theme switcher
+ */
+function setupThemeSwitcher() {
+    const themeButtons = document.querySelectorAll('.theme-btn');
+    const body = document.body;
+    const savedTheme = localStorage.getItem('lovePageTheme') || 'default';
+
+    function applyTheme(theme) {
+        body.classList.remove('theme-default', 'theme-pastel', 'theme-dark');
+        body.classList.add(`theme-${theme}`);
+        themeButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === theme));
+        localStorage.setItem('lovePageTheme', theme);
+    }
+
+    themeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            applyTheme(btn.dataset.theme);
+            showNotification(`🎨 Theme changed to ${btn.dataset.theme}`);
+        });
+    });
+
+    applyTheme(savedTheme);
 }
 
 // Initialize everything when DOM is ready
