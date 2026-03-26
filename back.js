@@ -54,12 +54,11 @@ function setupImageInteractions() {
  * Setup video play interactions
  */
 function setupVideoInteractions() {
-    const video = document.querySelector('video');
-    if (video) {
+    document.querySelectorAll('video').forEach(video => {
         video.addEventListener('play', () => {
             showNotification('🎥 Playing our precious memories...');
         });
-    }
+    });
 }
 
 /**
