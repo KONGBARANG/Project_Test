@@ -25,21 +25,25 @@ const LOVE_MESSAGES = [
     {
         english: 'Love you o neang ❤',
         khmer: 'បងស្រលាញ់អូននាងខ្លាំងៗ 🥰',
+        chinese: '我爱你，我的女孩 ❤',
         emoji: '💕'
     },
     {
         english: 'You make my heart skip a beat! 💓',
         khmer: 'អូននាងធ្វើឱ្យបេះដូងបងលោតខ្លាំងណាស់! 💓',
+        chinese: '你让我心跳加速！💓',
         emoji: '🌹'
     },
     {
         english: 'My Dearest Rang X Neang',
         khmer: 'រាង ហ្សឹង នាង',
+        chinese: '我最亲爱的Rang X Neang',
         emoji: '💕'
     },
     {
         english: 'My Beautiful O Neang',
         khmer: 'អូននាងស្រស់ស្អាតរបស់បង',
+        chinese: '我美丽的女孩',
         emoji: '🌹'
     }
 ];
@@ -245,6 +249,11 @@ function getLocaleText(message) {
             title: message.khmershort || message.khmer || message.english,
             sub: message.english
         };
+    } else if (currentLanguage === 'zh') {
+        return {
+            title: message.chinese || message.english,
+            sub: message.english
+        };
     }
 
     return {
@@ -412,7 +421,7 @@ function setupThemeSwitcher() {
     const savedTheme = localStorage.getItem('lovePageTheme') || 'default';
 
     function applyTheme(theme) {
-        body.classList.remove('theme-default', 'theme-pastel', 'theme-dark');
+        body.classList.remove('theme-default', 'theme-pastel', 'theme-rose', 'theme-dark');
         body.classList.add(`theme-${theme}`);
         themeButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === theme));
         localStorage.setItem('lovePageTheme', theme);
@@ -486,6 +495,34 @@ function setupLanguageSwitcher() {
                 { title: '💍 ទៅជាមួយគ្នា​រស់នៅ​សង្គម 💍', desc: 'រាល់ថ្ងៃទីជាមួយអ្នកជាការអរគុណ។ អ្នកគឺជាស្នេហារបស់ខ្ញុំ ជីវិតរបស់ខ្ញុំ! 💖', date: 'ថ្ងៃនេះ និងអស់កល្ប' }
             ],
             footer: 'បង្កើតដោយ ❤️ សម្រាប់អ្នកសំខាន់'
+        },
+        zh: {
+            title: '💕 Rang X Neang 💕',
+            subtitle: '我美丽的女孩',
+            anniversaryHeader: '💍 自2025年5月25日起在一起 💍',
+            anniversaryCountdownPast: (days) => `我们在一起 ${days} 天并继续计算！💕`,
+            anniversaryCountdownFuture: '我们的特别日子快要来了！🎉',
+            navLinks: ['📸 照片', '🎥 视频', '💌 留言', '📅 时间线'],
+            sectionTitles: ['🌸 我们美丽的回忆 🌸', '🎥 我们珍贵的时刻 🎥', '💌 爱的信息 💌', '📅 我们的爱情故事 📅'],
+            loveMessages: [
+                {
+                    title: '💕 我最亲爱的Rang X Neang 💕',
+                    body: '和你在一起的每一刻都是宝藏。你的笑容照亮了我的世界，你的爱充满了我的心。你是我的一切，我的爱，我的生命。永远属于你！💖',
+                    date: '2026年3月26日'
+                },
+                {
+                    title: '🌹 我美丽的女孩 🌹',
+                    body: '每次看到你，我的心都会跳动。你的笑声是我最喜欢的旋律，你的触摸是我最大的安慰。我爱你胜过言语所能表达！💓',
+                    date: '每天'
+                }
+            ],
+            timeline: [
+                { title: '🌟 我们相遇的那天 🌟', desc: '我们的眼睛相遇的那一刻，我就知道你很特别。那笑容永远俘获了我的心！💕', date: '初次见面' },
+                { title: '💍 我们的爱开始了 💍', desc: '我们的心永远连接在一起的神奇日子。2025/05/25 - 我们相爱的那一天！💖✨', date: '2025年5月25日' },
+                { title: '💑 我们的第一次约会 💑', desc: '一个充满欢笑、对话和美丽开始的魔幻夜晚！🌹', date: '第一次约会' },
+                { title: '💍 永远在一起 💍', desc: '和你在一起的每一天都是祝福。你是我的爱，我的生命，我的一切！💖', date: '今天和永远' }
+            ],
+            footer: '用 ❤️ 为我最亲爱的人制作'
         }
     };
 
@@ -496,7 +533,7 @@ function setupLanguageSwitcher() {
         currentLanguage = lang;
         const data = textMap[lang] || textMap.en;
 
-        document.title = `${data.title} - ${lang === 'km' ? 'ស្នេហា' : 'My Love'}`;
+        document.title = `${data.title} - ${lang === 'km' ? 'ស្នេហា' : lang === 'zh' ? '爱' : 'My Love'}`;
         document.querySelector('header h1').textContent = data.title;
         document.querySelector('.subtitle').textContent = data.subtitle;
 
@@ -540,7 +577,7 @@ function setupLanguageSwitcher() {
         langButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
         localStorage.setItem('lovePageLanguage', lang);
 
-        const notificationText = lang === 'km' ? '🌏 ភាសាដែលបានកំណត់ជា ខ្មែរ' : '🌏 Language set to English';
+        const notificationText = lang === 'km' ? '🌏 ភាសាដែលបានកំណត់ជា ខ្មែរ' : lang === 'zh' ? '🌏 语言设置为中文' : '🌏 Language set to English';
         showNotification(notificationText);
 
         // Update anniversary counter text based on newly selected language
