@@ -3,6 +3,9 @@
  * Beautiful JavaScript enhancements for the love page
  */
 
+// Current language state
+let currentLanguage = 'en';
+
 // Configuration constants
 const CONFIG = {
     HEART_COUNT: 8,
@@ -73,6 +76,7 @@ function initializeRomanticFeatures() {
     setupMessageInteractions();
     setupAnniversaryCounter();
     setupThemeSwitcher();
+    setupLanguageSwitcher();
     createBackgroundHearts();
     startAmbientEffects();
 }
@@ -235,6 +239,20 @@ function createLoveModal(message) {
     scheduleAutoClose(modal);
 }
 
+function getLocaleText(message) {
+    if (currentLanguage === 'km') {
+        return {
+            title: message.khmershort || message.khmer || message.english,
+            sub: message.english
+        };
+    }
+
+    return {
+        title: message.english || message.khmershort || message.khmer,
+        sub: message.khmer
+    };
+}
+
 /**
  * Remove any existing modal
  */
@@ -252,6 +270,7 @@ function removeExistingModal() {
  */
 function createModalElement(message) {
     const modal = createStyledElement('div', 'love-modal');
+    const text = getLocaleText(message);
 
     modal.innerHTML = `
         <div class="modal-content">
@@ -260,8 +279,8 @@ function createModalElement(message) {
             </div>
             <div class="modal-body">
                 <div class="heart-icon">${message.emoji}</div>
-                <h3>${message.english}</h3>
-                <p>${message.khmer}</p>
+                <h3>${text.title}</h3>
+                <p>${text.sub || ''}</p>
             </div>
         </div>
     `;
@@ -407,6 +426,143 @@ function setupThemeSwitcher() {
     });
 
     applyTheme(savedTheme);
+}
+
+function setupLanguageSwitcher() {
+    const textMap = {
+        en: {
+            title: '💕 Rang X Neang 💕',
+            subtitle: 'My Beautiful Girlfriend',
+            anniversaryHeader: '💍 Together since May 25, 2025 💍',
+            anniversaryCountdownPast: (days) => `${days} days of love and counting! 💕`,
+            anniversaryCountdownFuture: 'Our special day is coming soon! 🎉',
+            navLinks: ['📸 Photos', '🎥 Videos', '💌 Messages', '📅 Timeline'],
+            sectionTitles: ['🌸 Our Beautiful Memories 🌸', '🎥 Our Precious Moments 🎥', '💌 Love Messages 💌', '📅 Our Love Story 📅'],
+            loveMessages: [
+                {
+                    title: '💕 My Dearest Rang X Neang 💕',
+                    body: 'Every moment with you is a treasure. Your smile lights up my world, and your love fills my heart with joy. You are my everything, my love, my life. Forever yours! 💖',
+                    date: 'March 26, 2026'
+                },
+                {
+                    title: '🌹 My Beautiful O Neang 🌹',
+                    body: 'You make my heart skip a beat every time I see you. Your laughter is my favorite melody, and your touch is my greatest comfort. I love you more than words can express! 💓',
+                    date: 'Every day'
+                }
+            ],
+            timeline: [
+                { title: '🌟 The Day We Met 🌟', desc: 'The moment our eyes met, I knew you were special. That smile that captured my heart forever! 💕', date: 'First Meeting' },
+                { title: '💍 Our Love Began 💍', desc: 'The magical day when our hearts connected forever. 25/05/2025 - the day we fell in love! 💖✨', date: '25 May 2025' },
+                { title: '💑 Our First Date 💑', desc: 'A magical evening filled with laughter, conversation, and the beginning of something beautiful! 🌹', date: 'First Date' },
+                { title: '💍 Forever Together 💍', desc: 'Every day with you is a blessing. You are my love, my life, my everything! 💖', date: 'Today & Always' }
+            ],
+            footer: 'Made with ❤️ for my dearest',
+            modalMessage: '💌 Click a message card for a surprise 💌'
+        },
+        km: {
+            title: '💕 រាំង X នាង 💕',
+            subtitle: 'ស្រីស្អាតរបស់ខ្ញុំ',
+            anniversaryHeader: '💍 រួមគ្នាជាមួយគ្នាតាំងពី ២៥ ឧសភា ២០២៥ 💍',
+            anniversaryCountdownPast: (days) => `ជាមួយគ្នា​មករួច ${days} ថ្ងៃ និងបន្តរាប់! 💕`,
+            anniversaryCountdownFuture: 'ថ្ងៃពិសេសរបស់យើងកំពុងមកដល់! 🎉',
+            navLinks: ['📸 រូបភាព', '🎥 វីដេអូ', '💌 សារ​ស្រលាញ់', '📅 រឿងស្នេហា'],
+            sectionTitles: ['🌸 ចងចាំស្រស់ស្អាតរបស់យើង 🌸', '🎥 ខ្សែភាពយន្តតម្លៃមានរបស់យើង 🎥', '💌 សារ​ស្រលាញ់ 💌', '📅 រឿងស្រឡាញ់របស់យើង 📅'],
+            loveMessages: [
+                {
+                    title: '💕 សួស្តី រាំង X នាង 💕',
+                    body: 'រាល់ពេលវេលាជាមួយអ្នកគឺជាមោទនភាព។ ស្មារតីអ្នកបំភ្លឺពិភពលោករបស់ខ្ញុំ ហើយស្នាមញញឹមរបស់អ្នកពេញខ្ញុំនូវភាពរីករាយ។ អ្នកគឺជាគ្រប់យ៉ាងរបស់ខ្ញុំ! 💖',
+                    date: '២៦ មីនា ២០២៦'
+                },
+                {
+                    title: '🌹 អូននាងស្រស់ស្អាតរបស់បង 🌹',
+                    body: 'អូនធ្វើឱ្យបេះដូងបងលោតរាល់ពេលដែលបានឃើញ។ ពេលហ្នឹងសប្បាយបំផុតរបស់ខ្ញុំ ហើយការរួមប៉ះរបស់អ្នកគឺជាសុខចិត្តដ៏អស្ចារ្យ។ 💓',
+                    date: 'រាល់ថ្ងៃ'
+                }
+            ],
+            timeline: [
+                { title: '🌟 ថ្ងៃដែលយើងជួបគ្នា 🌟', desc: 'ពេលដែលភ្នែកយើងបានជួបគ្នា ខ្ញុំដឹងថាអ្នកពិសេសហើយ។ នេះជាស្នាមញញឹមដែលយកចិត្តទុកដាក់ខ្ញុំជានិច្ច! 💕', date: 'ការជួបគ្នា កាលពីដំបូង' },
+                { title: '💍 ស្នេហារបស់យើងចាប់ផ្តើម 💍', desc: 'ថ្ងៃអស្ចារ្យដែលចិត្តយើងភ្ជាប់ព្រមគ្នាតាំងក្នុងមួយ។ ២៥/០៥/២០២៥ - ថ្ងៃដែលយើងស្រឡាញ់គ្នា! 💖✨', date: '២៥ ឧសភា ២០២៥' },
+                { title: '💑 ថ្ងៃដើមគូស្នេហា 💑', desc: 'រសៀលមួយដ៏អស្ចារ្យពោរពេញដោយកំហឹងនិងការផ្សព្វផ្សាយដែលចាប់ផ្តើមអ្វីមួយស្រស់ស្អាត! 🌹', date: 'ថ្ងៃដើមជួបគ្នា' },
+                { title: '💍 ទៅជាមួយគ្នា​រស់នៅ​សង្គម 💍', desc: 'រាល់ថ្ងៃទីជាមួយអ្នកជាការអរគុណ។ អ្នកគឺជាស្នេហារបស់ខ្ញុំ ជីវិតរបស់ខ្ញុំ! 💖', date: 'ថ្ងៃនេះ និងអស់កល្ប' }
+            ],
+            footer: 'បង្កើតដោយ ❤️ សម្រាប់អ្នកសំខាន់'
+        }
+    };
+
+    const langButtons = document.querySelectorAll('.lang-btn');
+    const savedLang = localStorage.getItem('lovePageLanguage') || 'en';
+
+    function applyLanguage(lang) {
+        currentLanguage = lang;
+        const data = textMap[lang] || textMap.en;
+
+        document.title = `${data.title} - ${lang === 'km' ? 'ស្នេហា' : 'My Love'}`;
+        document.querySelector('header h1').textContent = data.title;
+        document.querySelector('.subtitle').textContent = data.subtitle;
+
+        const counterFirstLine = document.querySelector('.anniversary-counter p:first-of-type');
+        if (counterFirstLine) {
+            counterFirstLine.textContent = data.anniversaryHeader;
+        }
+
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach((link, i) => {
+            link.textContent = data.navLinks[i] || link.textContent;
+        });
+
+        document.querySelector('#photos h2').textContent = data.sectionTitles[0];
+        document.querySelector('#videos h2').textContent = data.sectionTitles[1];
+        document.querySelector('#messages h2').textContent = data.sectionTitles[2];
+        document.querySelector('#timeline h2').textContent = data.sectionTitles[3];
+
+        const messageCards = document.querySelectorAll('.love-message');
+        messageCards.forEach((card, index) => {
+            const title = card.querySelector('h3');
+            const body = card.querySelector('p');
+            const date = card.querySelector('.message-date');
+            if (title) title.textContent = data.loveMessages[index]?.title || title.textContent;
+            if (body) body.textContent = data.loveMessages[index]?.body || body.textContent;
+            if (date) date.textContent = data.loveMessages[index]?.date || date.textContent;
+        });
+
+        const timelineItems = document.querySelectorAll('.timeline-item .timeline-content');
+        timelineItems.forEach((item, index) => {
+            const h3 = item.querySelector('h3');
+            const p = item.querySelector('p');
+            const span = item.querySelector('.timeline-date');
+            if (h3) h3.textContent = data.timeline[index]?.title || h3.textContent;
+            if (p) p.textContent = data.timeline[index]?.desc || p.textContent;
+            if (span) span.textContent = data.timeline[index]?.date || span.textContent;
+        });
+
+        document.querySelector('footer p').textContent = data.footer;
+
+        langButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+        localStorage.setItem('lovePageLanguage', lang);
+
+        const notificationText = lang === 'km' ? '🌏 ភាសាដែលបានកំណត់ជា ខ្មែរ' : '🌏 Language set to English';
+        showNotification(notificationText);
+
+        // Update anniversary counter text based on newly selected language
+        const counterElement = document.getElementById('daysTogether');
+        if (counterElement) {
+            const anniversaryDate = new Date('2025-05-25');
+            const today = new Date();
+            const timeDiff = today.getTime() - anniversaryDate.getTime();
+            const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+            if (daysDiff >= 0) {
+                counterElement.textContent = data.anniversaryCountdownPast(daysDiff);
+            } else {
+                counterElement.textContent = data.anniversaryCountdownFuture;
+            }
+        }
+    }
+
+    langButtons.forEach(btn => {
+        btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
+    });
+
+    applyLanguage(savedLang);
 }
 
 // Initialize everything when DOM is ready

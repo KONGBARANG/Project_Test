@@ -121,11 +121,32 @@ main {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.theme-controls {
+.theme-controls,
+.lang-controls {
     margin-top: 10px;
     display: flex;
     justify-content: center;
     gap: 10px;
+}
+
+.lang-btn,
+.theme-btn {
+    background: rgba(255,255,255,0.2);
+    color: #2f1a3a;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 18px;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-weight: bold;
+}
+
+.lang-btn.active,
+.theme-btn.active {
+    background: rgba(255, 107, 157, 0.35);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
 }
 
 .theme-btn {
