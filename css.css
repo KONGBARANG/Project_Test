@@ -1,14 +1,24 @@
 /* Smooth Scrolling */
+:root {
+    --text-color: #2d1131;
+    --text-muted: rgba(255,255,255,0.95);
+    --bg-main: linear-gradient(135deg, #ffe5f2 0%, #fff7fb 45%, #fdeefc 100%);
+    --bg-card: rgba(255,255,255,0.12);
+    --border-light: rgba(255,255,255,0.3);
+    --shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    color: #2d1131;
-    background: linear-gradient(135deg, #ffe5f2 0%, #fff7fb 45%, #fdeefc 100%);
+    color: var(--text-color);
+    background: var(--bg-main);
     font-family: 'Khmer OS Battambang', 'Segoe UI', 'Roboto', sans-serif;
     transition: background 0.5s ease, color 0.5s ease;
     min-height: 100vh;
+    margin: 0;
 }
 
 body::before {
@@ -687,6 +697,14 @@ video {
         transform: translateY(-100px) rotate(360deg);
         opacity: 0;
     }
+}
+
+.floating-heart {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+    animation: floatHeart 2s ease-out forwards;
 }
 
 @media (max-width: 900px) {

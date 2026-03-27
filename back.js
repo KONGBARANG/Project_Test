@@ -207,16 +207,12 @@ function createHeartEffect(element) {
  */
 function createFloatingHeart(x, y) {
     const heart = createStyledElement('div', 'floating-heart', {
-        position: 'fixed',
         left: `${x}px`,
         top: `${y}px`,
         fontSize: `${CONFIG.HEART_SIZE}px`,
-        pointerEvents: 'none',
-        zIndex: '1000',
-        animation: 'floatHeart 2s ease-out forwards'
     });
 
-    heart.innerHTML = '💖';
+    heart.textContent = getRandomHeartEmoji();
     document.body.appendChild(heart);
 
     // Remove heart after animation
@@ -289,7 +285,7 @@ function setupModalInteractions(modal) {
     });
 }
 
-/**
+ /**
  * Schedule automatic modal closure
  * @param {HTMLElement} modal - Modal element
  */
