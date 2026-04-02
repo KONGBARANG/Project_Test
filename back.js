@@ -160,12 +160,14 @@ function setupAnniversaryCounter() {
     const anniversaryDate = new Date('2025-05-25');
     const today = new Date();
     const timeDiff = today.getTime() - anniversaryDate.getTime();
-    const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+    const hoursDiff = Math.floor(timeDiff / (1000 * 3600));
+    const daysDiff = Math.floor(hoursDiff / 24);
+    const remainingHours = hoursDiff % 24;
 
     const counterElement = document.getElementById('daysTogether');
     if (counterElement) {
         if (daysDiff >= 0) {
-            counterElement.textContent = `${daysDiff} days of love and counting! 💕`;
+            counterElement.textContent = `${daysDiff} days ${remainingHours} hours of love and counting! 💕`;
         } else {
             counterElement.textContent = `Our special day is coming soon! 🎉`;
         }
@@ -443,7 +445,7 @@ function setupLanguageSwitcher() {
             title: '💕 Rang X Neang 💕',
             subtitle: 'My Beautiful Girlfriend',
             anniversaryHeader: '💍 Together since May 25, 2025 💍',
-            anniversaryCountdownPast: (days) => `${days} days of love and counting! 💕`,
+            anniversaryCountdownPast: (days, hours) => `${days} days ${hours} hours of love and counting! 💕`,
             anniversaryCountdownFuture: 'Our special day is coming soon! 🎉',
             navLinks: ['📸 Photos', '🎥 Videos', '💌 Messages', '📅 Timeline'],
             sectionTitles: ['🌸 Our Beautiful Memories 🌸', '🎥 Our Precious Moments 🎥', '💌 Love Messages 💌', '📅 Our Love Story 📅'],
@@ -472,7 +474,7 @@ function setupLanguageSwitcher() {
             title: '💕 រាំង X នាង 💕',
             subtitle: 'ស្រីស្អាតរបស់ខ្ញុំ',
             anniversaryHeader: '💍 រួមគ្នាជាមួយគ្នាតាំងពី ២៥ ឧសភា ២០២៥ 💍',
-            anniversaryCountdownPast: (days) => `ជាមួយគ្នា​មករួច ${days} ថ្ងៃ និងបន្តរាប់! 💕`,
+            anniversaryCountdownPast: (days, hours) => `ជាមួយគ្នា​មករួច ${days} ថ្ងៃ ${hours} ម៉ោង និងបន្តរាប់! 💕`,
             anniversaryCountdownFuture: 'ថ្ងៃពិសេសរបស់យើងកំពុងមកដល់! 🎉',
             navLinks: ['📸 រូបភាព', '🎥 វីដេអូ', '💌 សារ​ស្រលាញ់', '📅 រឿងស្នេហា'],
             sectionTitles: ['🌸 ចងចាំស្រស់ស្អាតរបស់យើង 🌸', '🎥 ខ្សែភាពយន្តតម្លៃមានរបស់យើង 🎥', '💌 សារ​ស្រលាញ់ 💌', '📅 រឿងស្រឡាញ់របស់យើង 📅'],
@@ -500,7 +502,7 @@ function setupLanguageSwitcher() {
             title: '💕 Rang X Neang 💕',
             subtitle: '我美丽的女孩',
             anniversaryHeader: '💍 自2025年5月25日起在一起 💍',
-            anniversaryCountdownPast: (days) => `我们在一起 ${days} 天并继续计算！💕`,
+            anniversaryCountdownPast: (days, hours) => `我们在一起 ${days} 天 ${hours} 小时并继续计算！💕`,
             anniversaryCountdownFuture: '我们的特别日子快要来了！🎉',
             navLinks: ['📸 照片', '🎥 视频', '💌 留言', '📅 时间线'],
             sectionTitles: ['🌸 我们美丽的回忆 🌸', '🎥 我们珍贵的时刻 🎥', '💌 爱的信息 💌', '📅 我们的爱情故事 📅'],
@@ -586,9 +588,11 @@ function setupLanguageSwitcher() {
             const anniversaryDate = new Date('2025-05-25');
             const today = new Date();
             const timeDiff = today.getTime() - anniversaryDate.getTime();
-            const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+            const hoursDiff = Math.floor(timeDiff / (1000 * 3600));
+            const daysDiff = Math.floor(hoursDiff / 24);
+            const remainingHours = hoursDiff % 24;
             if (daysDiff >= 0) {
-                counterElement.textContent = data.anniversaryCountdownPast(daysDiff);
+                counterElement.textContent = data.anniversaryCountdownPast(daysDiff, remainingHours);
             } else {
                 counterElement.textContent = data.anniversaryCountdownFuture;
             }
