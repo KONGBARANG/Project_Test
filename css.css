@@ -1,4 +1,6 @@
 /* Smooth Scrolling */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 :root {
     --text-color: #2d1131;
     --text-muted: rgba(255,255,255,0.95);
@@ -15,7 +17,7 @@ html {
 body {
     color: var(--text-color);
     background: var(--bg-main);
-    font-family: 'Khmer OS Battambang', 'Segoe UI', 'Roboto', sans-serif;
+    font-family: 'Poppins', 'Khmer OS Battambang', 'Segoe UI', 'Roboto', sans-serif;
     transition: background 0.5s ease, color 0.5s ease;
     min-height: 100vh;
     margin: 0;
@@ -264,6 +266,12 @@ main {
     align-items: center;
     text-align: center;
     justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.memory:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
 }
 
 .memory:nth-child(1) { animation-delay: 0.2s; }
@@ -595,6 +603,55 @@ video {
     to {
         transform: translateX(100%);
         opacity: 0;
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.5em;
+    }
+
+    .gallery-grid, .video-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .memory {
+        padding: 20px;
+    }
+
+    .timeline::before {
+        left: 20px;
+    }
+
+    .timeline-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .timeline-item:nth-child(even), .timeline-item:nth-child(odd) {
+        justify-content: flex-start;
+    }
+
+    .timeline-content {
+        width: 100%;
+        margin-left: 40px;
+        margin-right: 0;
+    }
+
+    .timeline-content::before {
+        left: -10px;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent rgba(255,255,255,0.2) transparent transparent;
+    }
+
+    .messages-container {
+        grid-template-columns: 1fr;
+    }
+
+    img, video {
+        max-width: 100%;
     }
 }
 
